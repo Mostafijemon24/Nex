@@ -1,0 +1,332 @@
+[
+  {
+    "id": "AUTH-001",
+    "title": "Initial administrator setup",
+    "description": "The first request creates the only initial administrator and organization.",
+    "category": "authentication",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/auth.py"],
+    "related_modules": ["auth"]
+  },
+  {
+    "id": "AUTH-002",
+    "title": "Session login",
+    "description": "A valid account receives an HttpOnly session and the password is not returned.",
+    "category": "authentication",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/auth.py"],
+    "related_modules": ["auth"]
+  },
+  {
+    "id": "AUTH-003",
+    "title": "Invalid login",
+    "description": "An incorrect password is rejected with the same message used for an unknown email.",
+    "category": "authentication",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/auth.py"],
+    "related_modules": ["auth"]
+  },
+  {
+    "id": "PROJ-001",
+    "title": "Project management",
+    "description": "Users can create and list projects stored in PostgreSQL.",
+    "category": "projects",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/work.py"],
+    "related_modules": ["projects"]
+  },
+  {
+    "id": "SRC-001",
+    "title": "Input sources",
+    "description": "A project can store a website source without storing the password in the source configuration.",
+    "category": "sources",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/work.py"],
+    "related_modules": ["sources"]
+  },
+  {
+    "id": "SRC-002",
+    "title": "Target and archive safety",
+    "description": "Blocked network targets and archive paths that escape the destination are rejected.",
+    "category": "security",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/core/ssrf.py", "apps/api/app/analysis/source.py"],
+    "related_modules": ["browser", "analysis"]
+  },
+  {
+    "id": "AI-001",
+    "title": "AI credential storage",
+    "description": "Provider API keys are encrypted and ordinary responses show only a hint.",
+    "category": "ai",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/system.py"],
+    "related_modules": ["ai"]
+  },
+  {
+    "id": "AI-002",
+    "title": "AI connection test",
+    "description": "A provider is marked connected only after its model endpoint returns a recognized JSON payload.",
+    "category": "ai",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/integrations/ai.py"],
+    "related_modules": ["ai"]
+  },
+  {
+    "id": "DISC-001",
+    "title": "Website discovery",
+    "description": "Playwright records pages inside the allowed host and stores PNG screenshots.",
+    "category": "discovery",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/browser/discovery.py"],
+    "related_modules": ["browser"]
+  },
+  {
+    "id": "CODE-001",
+    "title": "Static source analysis",
+    "description": "ZIP and Git sources are inspected without executing the uploaded code, and route findings use real line numbers.",
+    "category": "analysis",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/analysis/source.py"],
+    "related_modules": ["analysis"]
+  },
+  {
+    "id": "JOB-001",
+    "title": "Failed jobs stay failed",
+    "description": "A job that cannot start analysis is stored as failed and is not reported as completed.",
+    "category": "jobs",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/services/pipeline.py"],
+    "related_modules": ["jobs"]
+  },
+  {
+    "id": "JOB-002",
+    "title": "Job retry",
+    "description": "Retrying a failed job increments the retry count and runs the pipeline again.",
+    "category": "jobs",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/services/jobs.py"],
+    "related_modules": ["jobs"]
+  },
+  {
+    "id": "JOB-003",
+    "title": "Cooperative pause",
+    "description": "A pause request stops the pipeline before the next step and keeps the job paused.",
+    "category": "jobs",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/services/pipeline.py"],
+    "related_modules": ["jobs"]
+  },
+  {
+    "id": "VER-001",
+    "title": "Verification rules",
+    "description": "Verified status requires every mandatory criterion to pass. A failed criterion blocks that status.",
+    "category": "verification",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/verification/engine.py"],
+    "related_modules": ["verification"]
+  },
+  {
+    "id": "DOC-001",
+    "title": "Document generation",
+    "description": "Markdown, HTML, PDF, and DOCX exports open and contain the document title.",
+    "category": "documentation",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/documentation/render.py"],
+    "related_modules": ["documentation"]
+  },
+  {
+    "id": "DOC-002",
+    "title": "Document versions",
+    "description": "A later analysis run keeps earlier document versions available.",
+    "category": "documentation",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/services/pipeline.py"],
+    "related_modules": ["documentation"]
+  },
+  {
+    "id": "SEC-001",
+    "title": "Organization isolation",
+    "description": "A user in another organization cannot read a project.",
+    "category": "security",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/deps.py"],
+    "related_modules": ["auth"]
+  },
+  {
+    "id": "SEC-002",
+    "title": "Secret redaction",
+    "description": "Secret assignments are removed from exported text.",
+    "category": "security",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/core/redact.py"],
+    "related_modules": ["security"]
+  },
+  {
+    "id": "PUB-001",
+    "title": "WordPress draft publishing",
+    "description": "A post is recorded only after WordPress confirms it, and the same request is not sent twice.",
+    "category": "publishing",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/integrations/wordpress.py"],
+    "related_modules": ["publishing"]
+  },
+  {
+    "id": "VID-001",
+    "title": "Video rendering",
+    "description": "ffmpeg produces a readable MP4 with a positive duration from captured screenshots.",
+    "category": "video",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/video/render.py"],
+    "related_modules": ["video"]
+  },
+  {
+    "id": "CHG-001",
+    "title": "Manual change detection",
+    "description": "A new analysis run compares file hashes with the previous run. There is no live monitor.",
+    "category": "change_detection",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/services/pipeline.py"],
+    "related_modules": ["analysis"]
+  },
+  {
+    "id": "HEALTH-001",
+    "title": "Readiness checks",
+    "description": "Readiness reports database, Redis, and storage independently.",
+    "category": "operations",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/system.py"],
+    "related_modules": ["health"]
+  },
+  {
+    "id": "AI-003",
+    "title": "Provider adapters",
+    "description": "OpenRouter, Gemini, OpenAI, and OpenAI-compatible adapters build their own requests. Pricing is read from provider fields.",
+    "category": "ai",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/integrations/providers.py"],
+    "related_modules": ["ai"]
+  },
+  {
+    "id": "AI-004",
+    "title": "Provider endpoint safety",
+    "description": "Provider base URLs are rejected when they target metadata or link-local addresses.",
+    "category": "security",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/integrations/providers.py"],
+    "related_modules": ["ai"]
+  },
+  {
+    "id": "AI-005",
+    "title": "Paid fallback guard",
+    "description": "A failed provider is not replaced by another provider unless paid fallback is explicitly enabled.",
+    "category": "ai",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/integrations/ai.py"],
+    "related_modules": ["ai"]
+  },
+  {
+    "id": "AI-006",
+    "title": "Oxion AI provider",
+    "description": "Oxion AI can be connected with only an API key. The official base URL and model discovery are applied automatically.",
+    "category": "ai",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/integrations/providers.py", "apps/api/app/api/routes/system.py", "apps/web/components/workspace.tsx"],
+    "related_modules": ["ai"]
+  },
+  {
+    "id": "DATA-001",
+    "title": "Test database isolation",
+    "description": "The automated suite truncates only a database whose name ends with _test.",
+    "category": "verification",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/tests/conftest.py"],
+    "related_modules": ["verification"]
+  },
+  {
+    "id": "VER-002",
+    "title": "Verification evidence is separate",
+    "description": "Importing a test report stores a historical run and does not change requirement row status.",
+    "category": "verification",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/system.py"],
+    "related_modules": ["verification"]
+  },
+  {
+    "id": "SEO-001",
+    "title": "SEO article draft",
+    "description": "An article stores the SEO fields and labels template output separately from model output.",
+    "category": "content",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/documentation/seo.py"],
+    "related_modules": ["documentation"]
+  },
+  {
+    "id": "TTS-001",
+    "title": "Voiceover boundary",
+    "description": "Missing speech synthesis does not create audio or mark a video as voice-enabled.",
+    "category": "video",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/integrations/tts.py"],
+    "related_modules": ["video"]
+  },
+  {
+    "id": "VID-002",
+    "title": "Video source labeling",
+    "description": "A slideshow is labeled as screenshots and is not described as a browser interaction recording.",
+    "category": "video",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/video/render.py"],
+    "related_modules": ["video"]
+  },
+  {
+    "id": "ACC-001",
+    "title": "Multiple website accounts",
+    "description": "A website source can store more than one account, and passwords are not returned.",
+    "category": "sources",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/api/routes/work.py"],
+    "related_modules": ["sources"]
+  },
+  {
+    "id": "MON-001",
+    "title": "Scheduled monitoring",
+    "description": "An enabled due schedule queues one rescan and does not queue another while a job is unfinished.",
+    "category": "jobs",
+    "priority": "mandatory",
+    "scope": "platform",
+    "implementation_refs": ["apps/api/app/services/monitors.py"],
+    "related_modules": ["jobs"]
+  }
+]

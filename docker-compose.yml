@@ -1,0 +1,121 @@
+services:
+  postgres:
+    image: postgres:16.10
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-docs}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-docs}
+      POSTGRES_DB: ${POSTGRES_DB:-docs}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-docs} -d ${POSTGRES_DB:-docs}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7.4-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: deployment/docker/Dockerfile.api
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-docs}:${POSTGRES_PASSWORD:-docs}@postgres:5432/${POSTGRES_DB:-docs}
+      REDIS_URL: redis://redis:6379/0
+      STORAGE_DIR: /data/storage
+      REQUIREMENTS_DIR: /srv/requirements
+      REQUIRE_WORKERS: "true"
+      CHROMIUM_NO_SANDBOX: "true"
+    ports:
+      - "8000:8000"
+    volumes:
+      - storage:/data/storage
+      - ./apps/api:/srv/api:ro
+      - ./requirements:/srv/requirements
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    init: true
+    shm_size: "1gb"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 40s
+
+  worker:
+    build:
+      context: .
+      dockerfile: deployment/docker/Dockerfile.api
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-docs}:${POSTGRES_PASSWORD:-docs}@postgres:5432/${POSTGRES_DB:-docs}
+      REDIS_URL: redis://redis:6379/0
+      STORAGE_DIR: /data/storage
+      REQUIREMENTS_DIR: /srv/requirements
+      WORKER_QUEUE: default
+    command: ["python", "-m", "app.entrypoint", "worker"]
+    volumes:
+      - storage:/data/storage
+      - ./apps/api:/srv/api:ro
+      - ./requirements:/srv/requirements
+    depends_on:
+      api:
+        condition: service_healthy
+    init: true
+    restart: unless-stopped
+
+  browser-worker:
+    build:
+      context: .
+      dockerfile: deployment/docker/Dockerfile.api
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-docs}:${POSTGRES_PASSWORD:-docs}@postgres:5432/${POSTGRES_DB:-docs}
+      REDIS_URL: redis://redis:6379/0
+      STORAGE_DIR: /data/storage
+      REQUIREMENTS_DIR: /srv/requirements
+      WORKER_QUEUE: browser
+      CHROMIUM_NO_SANDBOX: "true"
+    command: ["python", "-m", "app.entrypoint", "browser-worker"]
+    volumes:
+      - storage:/data/storage
+      - ./apps/api:/srv/api:ro
+      - ./requirements:/srv/requirements
+    depends_on:
+      api:
+        condition: service_healthy
+    init: true
+    shm_size: "1gb"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: deployment/docker/Dockerfile.web
+    environment:
+      API_INTERNAL_URL: http://api:8000
+      NEXT_PUBLIC_API_URL: ""
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  storage:

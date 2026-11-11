@@ -1,0 +1,6 @@
+[build]
+dockerfilePath = "deployment/docker/Dockerfile.api"
+
+[deploy]
+startCommand = "/srv/api/start-api.sh"
+restartPolicyType = "ON_FAILURE"

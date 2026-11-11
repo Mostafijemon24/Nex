@@ -1,0 +1,32 @@
+services:
+  postgres:
+    ports: !reset []
+    restart: unless-stopped
+  redis:
+    ports: !reset []
+    restart: unless-stopped
+  api:
+    ports: !reset []
+    restart: unless-stopped
+  web:
+    ports: !reset []
+    restart: unless-stopped
+  caddy:
+    image: caddy:2.10
+    restart: unless-stopped
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:?Set APP_DOMAIN to the hostname that points at this server}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deployment/vps/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - web
+      - api
+
+volumes:
+  caddy-data:
+  caddy-config:

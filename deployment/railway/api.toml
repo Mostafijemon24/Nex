@@ -1,0 +1,9 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "deployment/docker/Dockerfile.api"
+
+[deploy]
+startCommand = "python -m app.entrypoint serve"
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"

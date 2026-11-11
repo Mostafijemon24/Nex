@@ -1,0 +1,342 @@
+{
+  "source": "pytest",
+  "generated_at": "2026-11-10T09:17:48.460623+00:00",
+  "database_name": "docs_test",
+  "code_revision": "unknown",
+  "environment": "pytest",
+  "authoritative_for_current_code": false,
+  "note": "This file records a test-database run. It does not modify the development database or mark live requirement rows verified. The revision is unknown or the working tree is dirty, so this report is not authoritative for the current files.",
+  "total_requirements": 33,
+  "implemented_requirements": 33,
+  "verified_requirements": 33,
+  "failed_requirements": 0,
+  "blocked_requirements": 0,
+  "untested_requirements": 0,
+  "acceptance_criteria_coverage": {
+    "tested": 47,
+    "total": 47
+  },
+  "test_pass_rate": {
+    "passed": 47,
+    "executed": 47
+  },
+  "requirements": {
+    "AUTH-001": "verified",
+    "AUTH-002": "verified",
+    "AUTH-003": "verified",
+    "PROJ-001": "verified",
+    "SRC-001": "verified",
+    "SRC-002": "verified",
+    "AI-001": "verified",
+    "AI-002": "verified",
+    "DISC-001": "verified",
+    "CODE-001": "verified",
+    "JOB-001": "verified",
+    "JOB-002": "verified",
+    "JOB-003": "verified",
+    "VER-001": "verified",
+    "DOC-001": "verified",
+    "DOC-002": "verified",
+    "SEC-001": "verified",
+    "SEC-002": "verified",
+    "PUB-001": "verified",
+    "VID-001": "verified",
+    "CHG-001": "verified",
+    "HEALTH-001": "verified",
+    "AI-003": "verified",
+    "AI-004": "verified",
+    "AI-005": "verified",
+    "AI-006": "verified",
+    "DATA-001": "verified",
+    "VER-002": "verified",
+    "SEO-001": "verified",
+    "TTS-001": "verified",
+    "VID-002": "verified",
+    "ACC-001": "verified",
+    "MON-001": "verified"
+  },
+  "results": [
+    {
+      "requirement": "AI-003",
+      "criterion": "AI-003-AC-01",
+      "result": "passed",
+      "actual": "Gemini and OpenAI requests use different credential headers."
+    },
+    {
+      "requirement": "AI-003",
+      "criterion": "AI-003-AC-02",
+      "result": "passed",
+      "actual": "Free billing requires zero pricing fields. The model id is ignored."
+    },
+    {
+      "requirement": "AI-006",
+      "criterion": "AI-006-AC-01",
+      "result": "passed",
+      "actual": "Oxion AI uses the official base URL and prefers gemma-2-2b when listed."
+    },
+    {
+      "requirement": "AI-006",
+      "criterion": "AI-006-AC-02",
+      "result": "passed",
+      "actual": "Oxion Connect validates the key, auto-selects a model, and generates content."
+    },
+    {
+      "requirement": "AI-006",
+      "criterion": "AI-006-AC-03",
+      "result": "passed",
+      "actual": "Invalid Oxion keys fail clearly without HTTP 500 or key leakage."
+    },
+    {
+      "requirement": "AI-006",
+      "criterion": "AI-006-AC-04",
+      "result": "passed",
+      "actual": "OpenRouter Connect prefers a zero-price model; Gemini Connect prefers flash."
+    },
+    {
+      "requirement": "AI-004",
+      "criterion": "AI-004-AC-01",
+      "result": "passed",
+      "actual": "The metadata address was rejected."
+    },
+    {
+      "requirement": "AI-005",
+      "criterion": "AI-005-AC-01",
+      "result": "passed",
+      "actual": "The fallback provider was not called."
+    },
+    {
+      "requirement": "DATA-001",
+      "criterion": "DATA-001-AC-01",
+      "result": "passed",
+      "actual": "Tests are connected to docs_test."
+    },
+    {
+      "requirement": "VER-002",
+      "criterion": "VER-002-AC-01",
+      "result": "passed",
+      "actual": "Import stored a run without changing requirement status."
+    },
+    {
+      "requirement": "SEO-001",
+      "criterion": "SEO-001-AC-01",
+      "result": "passed",
+      "actual": "Template output is labeled and keeps the submitted keyword."
+    },
+    {
+      "requirement": "SEO-001",
+      "criterion": "SEO-001-AC-02",
+      "result": "passed",
+      "actual": "The article is labeled ai. The test used a local mock, not a live vendor."
+    },
+    {
+      "requirement": "TTS-001",
+      "criterion": "TTS-001-AC-01",
+      "result": "passed",
+      "actual": "No text-to-speech provider is configured. The video stays silent and is not marked as voice-enabled."
+    },
+    {
+      "requirement": "VID-002",
+      "criterion": "VID-002-AC-01",
+      "result": "passed",
+      "actual": "Screenshot slideshow."
+    },
+    {
+      "requirement": "ACC-001",
+      "criterion": "ACC-001-AC-01",
+      "result": "passed",
+      "actual": "Two accounts are stored without their passwords."
+    },
+    {
+      "requirement": "MON-001",
+      "criterion": "MON-001-AC-01",
+      "result": "passed",
+      "actual": "The due schedule skipped a second run while a job was queued."
+    },
+    {
+      "requirement": "AUTH-001",
+      "criterion": "AUTH-001-AC-01",
+      "result": "passed",
+      "actual": "Second setup was rejected after the administrator existed."
+    },
+    {
+      "requirement": "AUTH-001",
+      "criterion": "AUTH-001-AC-02",
+      "result": "passed",
+      "actual": "A password shorter than 12 characters is rejected."
+    },
+    {
+      "requirement": "AUTH-003",
+      "criterion": "AUTH-003-AC-01",
+      "result": "passed",
+      "actual": "Unknown email and wrong password return the same message."
+    },
+    {
+      "requirement": "AUTH-002",
+      "criterion": "AUTH-002-AC-01",
+      "result": "passed",
+      "actual": "The session can read the current user."
+    },
+    {
+      "requirement": "AUTH-002",
+      "criterion": "AUTH-002-AC-02",
+      "result": "passed",
+      "actual": "The password is absent from login and profile responses."
+    },
+    {
+      "requirement": "PROJ-001",
+      "criterion": "PROJ-001-AC-01",
+      "result": "passed",
+      "actual": "The created project is in the list."
+    },
+    {
+      "requirement": "SRC-001",
+      "criterion": "SRC-001-AC-01",
+      "result": "passed",
+      "actual": "Website source is stored without the password or extra field value."
+    },
+    {
+      "requirement": "SRC-002",
+      "criterion": "SRC-002-AC-01",
+      "result": "passed",
+      "actual": "The metadata address is rejected."
+    },
+    {
+      "requirement": "SRC-002",
+      "criterion": "SRC-002-AC-02",
+      "result": "passed",
+      "actual": "The archive member ../evil.txt was rejected."
+    },
+    {
+      "requirement": "AI-001",
+      "criterion": "AI-001-AC-01",
+      "result": "passed",
+      "actual": "The API key is not in the save response."
+    },
+    {
+      "requirement": "AI-002",
+      "criterion": "AI-002-AC-01",
+      "result": "passed",
+      "actual": "HTTP 401 leaves the provider failed rather than connected."
+    },
+    {
+      "requirement": "AI-002",
+      "criterion": "AI-002-AC-02",
+      "result": "passed",
+      "actual": "A model list marks the provider connected."
+    },
+    {
+      "requirement": "JOB-001",
+      "criterion": "JOB-001-AC-01",
+      "result": "passed",
+      "actual": "Add a website or source archive before starting analysis."
+    },
+    {
+      "requirement": "JOB-002",
+      "criterion": "JOB-002-AC-01",
+      "result": "passed",
+      "actual": "Retry ran again and the job remained failed."
+    },
+    {
+      "requirement": "JOB-003",
+      "criterion": "JOB-003-AC-01",
+      "result": "passed",
+      "actual": "The job paused before doing work."
+    },
+    {
+      "requirement": "VER-001",
+      "criterion": "VER-001-AC-01",
+      "result": "passed",
+      "actual": "The failed requirement stayed failed."
+    },
+    {
+      "requirement": "VER-001",
+      "criterion": "VER-001-AC-02",
+      "result": "passed",
+      "actual": "Verified was withheld until every mandatory criterion passed."
+    },
+    {
+      "requirement": "SEC-001",
+      "criterion": "SEC-001-AC-01",
+      "result": "passed",
+      "actual": "The other organization received 404."
+    },
+    {
+      "requirement": "DISC-001",
+      "criterion": "DISC-001-AC-01",
+      "result": "passed",
+      "actual": "Demo and Features were stored and the external host was not."
+    },
+    {
+      "requirement": "DISC-001",
+      "criterion": "DISC-001-AC-02",
+      "result": "passed",
+      "actual": "The screenshot file is a PNG."
+    },
+    {
+      "requirement": "CODE-001",
+      "criterion": "CODE-001-AC-01",
+      "result": "passed",
+      "actual": "The route line matches the fixture."
+    },
+    {
+      "requirement": "CODE-001",
+      "criterion": "CODE-001-AC-02",
+      "result": "passed",
+      "actual": "executed is false."
+    },
+    {
+      "requirement": "SEC-002",
+      "criterion": "SEC-002-AC-01",
+      "result": "passed",
+      "actual": "The fixture secret is absent from documents and features."
+    },
+    {
+      "requirement": "DOC-001",
+      "criterion": "DOC-001-AC-01",
+      "result": "passed",
+      "actual": "All four formats contain the title."
+    },
+    {
+      "requirement": "VID-001",
+      "criterion": "VID-001-AC-01",
+      "result": "passed",
+      "actual": "Duration 8.966667"
+    },
+    {
+      "requirement": "DOC-002",
+      "criterion": "DOC-002-AC-01",
+      "result": "passed",
+      "actual": "The first document version is still downloadable."
+    },
+    {
+      "requirement": "CHG-001",
+      "criterion": "CHG-001-AC-01",
+      "result": "passed",
+      "actual": "The changed app.py file was reported."
+    },
+    {
+      "requirement": "CODE-001",
+      "criterion": "CODE-001-AC-03",
+      "result": "passed",
+      "actual": "The local repository commit was recorded without executing it."
+    },
+    {
+      "requirement": "PUB-001",
+      "criterion": "PUB-001-AC-01",
+      "result": "passed",
+      "actual": "WordPress confirmed the draft."
+    },
+    {
+      "requirement": "PUB-001",
+      "criterion": "PUB-001-AC-02",
+      "result": "passed",
+      "actual": "The second request reused the publication record."
+    },
+    {
+      "requirement": "HEALTH-001",
+      "criterion": "HEALTH-001-AC-01",
+      "result": "passed",
+      "actual": "{\"database\": \"ok\", \"redis\": \"ok\", \"storage\": \"ok\", \"workers\": \"not_required\"}"
+    }
+  ]
+}

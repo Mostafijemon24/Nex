@@ -1,0 +1,29 @@
+FROM mcr.microsoft.com/playwright/python:v1.64.1-noble
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
+    REQUIREMENTS_DIR=/srv/requirements \
+    STORAGE_DIR=/data/storage
+
+WORKDIR /srv/api
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ffmpeg git fonts-dejavu-core redis-server \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /data/storage /var/run/redis \
+    && chown -R pwuser:pwuser /data/storage /var/run/redis /var/lib/redis
+
+COPY apps/api/requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+COPY apps/api /srv/api
+COPY requirements /srv/requirements
+COPY deployment/docker/start-api.sh /srv/api/start-api.sh
+RUN chmod +x /srv/api/start-api.sh \
+    && chown -R pwuser:pwuser /srv/api /srv/requirements
+
+USER pwuser
+EXPOSE 8000
+CMD ["/srv/api/start-api.sh"]

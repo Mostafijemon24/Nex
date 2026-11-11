@@ -1,0 +1,38 @@
+# Overlay for Hostinger cPanel/Apache hosts.
+# Apache terminates TLS and proxies to the web service on 127.0.0.1:3060.
+# Do not publish Postgres/Redis/API to the public internet.
+
+services:
+  postgres:
+    ports: !reset []
+    restart: unless-stopped
+  redis:
+    ports: !reset []
+    restart: unless-stopped
+  api:
+    ports: !override
+      - "127.0.0.1:8060:8000"
+    restart: unless-stopped
+    environment:
+      APP_ENV: production
+      COOKIE_SECURE: "true"
+      COOKIE_SAMESITE: lax
+      PUBLIC_APP_URL: https://n8n.avonixai.com
+      API_PUBLIC_URL: https://n8n.avonixai.com
+      CORS_ORIGINS: https://n8n.avonixai.com
+      ALLOW_LOCAL_TARGETS: "false"
+      CHROMIUM_NO_SANDBOX: "true"
+      REQUIRE_WORKERS: "true"
+  worker:
+    restart: unless-stopped
+  browser-worker:
+    restart: unless-stopped
+    environment:
+      CHROMIUM_NO_SANDBOX: "true"
+  web:
+    ports: !override
+      - "127.0.0.1:3060:3000"
+    restart: unless-stopped
+    environment:
+      API_INTERNAL_URL: http://api:8000
+      NEXT_PUBLIC_API_URL: ""

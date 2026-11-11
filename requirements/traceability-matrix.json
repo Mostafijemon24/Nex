@@ -1,0 +1,26 @@
+{
+  "counting_method": "Catalog rows from requirements/requirements.json; verified via docs_test pytest in verification-report.json.",
+  "catalog": {
+    "total": 32,
+    "verified_in_docs_test": 32,
+    "criteria_passed": 43,
+    "criteria_total": 43,
+    "code_revision": "e1b58e3",
+    "authoritative_for_current_code": true,
+    "pytest_passed": 28
+  },
+  "owner_decisions": {
+    "license": "GPL-3.0-only",
+    "staging": "Hostinger VPS",
+    "live_ai": "OpenRouter",
+    "github": "https://github.com/Mostafijemon24/Nex"
+  },
+  "prs_gaps": [
+    {"id": "LICENSE", "status": "PASS", "outstanding": "LICENSE file and README SPDX present."},
+    {"id": "OPENROUTER_MOCK", "status": "PASS", "outstanding": "Covered by catalog/adapter pytest mocks."},
+    {"id": "OPENROUTER_LIVE", "status": "BLOCKED", "outstanding": "Configure key on Hostinger staging; run UI generation or scripts/live-openrouter-check.sh."},
+    {"id": "HOSTINGER_STAGING", "status": "BLOCKED", "outstanding": "Need IP/hostname, Docker access, deploy authorization."},
+    {"id": "GITHUB_PUSH", "status": "BLOCKED", "outstanding": "origin configured; empty remote; push deferred until mandatory gates pass."},
+    {"id": "CHROMIUM_SANDBOX", "status": "LIMITATION", "outstanding": "Do not change CHROMIUM_NO_SANDBOX without Hostinger browser smoke test."}
+  ]
+}
