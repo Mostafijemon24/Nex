@@ -60,39 +60,109 @@ flowchart LR
 
 ---
 
-## Screens: what you will see
+## Dashboard tour
 
-### 1. First administrator / sign in
+> The images and video below show the dashboard with **example data** (a sample site called `acme.example`). In your installation every number, screenshot and document comes from your own analysis runs.
 
-The first visit creates the owner account when the database has no users. After that, sign in with email and password.
+### Walkthrough video
 
-![Sign in](docs/images/ui-sign-in.jpg)
+![Dashboard walkthrough](docs/images/dashboard/walkthrough.gif)
 
-### 2. Add a source
+[Download the walkthrough as MP4 (31 s)](docs/images/dashboard/walkthrough.mp4)
 
-Create a **project**, then on **Inputs** add a website, GitHub/Git URL, or ZIP (plugin/theme/source).
+### Main menu
 
-![Add a website source](docs/images/ui-workflow.jpg)
+The top bar has five sections. Everything else is a step inside them.
 
-### 3. Connect AI (optional, but needed for model-written SEO)
-
-Open the **AI** tab. Choose **OpenRouter**, **Google Gemini**, **Oxion AI**, **OpenAI**, or **Anthropic**. Paste only the API key. Click **Connect**. Do not type a Base URL or Model ID for those providers.
-
-![Connect an AI provider](docs/images/ui-ai-connect.jpg)
-
-Custom OpenAI-compatible servers still need an endpoint.
-
-### 4. Configure, run, review
-
-| Tab | Purpose |
+| Menu | What it is for |
 |---|---|
-| **Configure** | Crawl limits, doc types, formats, which connected AI provider this project uses. |
-| **Run** | Start analysis; pause / resume / retry. |
-| **Results** | Pages, features, documents, screenshots, videos, SEO article form. |
-| **Requirements** | Catalog status (platform vs this project). |
-| **Settings** | Storage probe, extra users, WordPress destination. |
+| **Analyze** | A 4-step wizard: Source → Configure → Run → Results. |
+| **Results** | Documents, screenshots, video, SEO article and change report. |
+| **API** | Connect an AI provider with your own key (optional). |
+| **Requirements** | Which requirements are verified, with acceptance criteria and evidence. |
+| **Settings** | WordPress drafts, automatic rescans, storage and team members. |
 
-![Five-step operator flow](docs/images/howto-steps.jpg)
+The project picker on the right switches projects or starts a new one.
+
+### Step guide (skippable)
+
+On the first visit a short 4-step guide explains the flow. Click **Skip guide** to close it, or open it again later with **Guide**.
+
+![Step guide](docs/images/dashboard/guide.png)
+
+### Analyze — 1. Source
+
+Add a public website, a Git repository, or a ZIP file (source code, WordPress plugin or theme). You can mix a website with its code. **Test access** checks each source. Private and internal addresses are refused.
+
+![Add a source](docs/images/dashboard/analyze-source.png)
+
+### Analyze — 2. Configure
+
+Pick the documents and export formats (Markdown, HTML, PDF, DOCX), turn the MP4 walkthrough on or off, set how many pages to crawl (up to 30), and choose an AI provider or none. **Advanced** holds analysis mode, safety level, language, audience, allowed domains, limits and speech settings.
+
+Screenshots are lossless PNG at the browser viewport the server uses (1280×720). The form says so instead of offering resolutions the server cannot produce.
+
+![Configure](docs/images/dashboard/analyze-configure.png)
+
+### Analyze — 3. Run
+
+Start the analysis and watch each of the eight steps finish. **Pause**, **Resume**, **Cancel** and **Retry** work while a job is active. A failed job stays failed and is never shown as complete. Earlier runs are listed below with a **Retry** button.
+
+![Run](docs/images/dashboard/analyze-run.png)
+
+### Results — Documents
+
+Every section of a document carries a tag: **Observed**, **Source code**, **Blocked — not observed**, or **AI inference · not verified**. Download any format from the bar at the top.
+
+![Documents](docs/images/dashboard/results-documents.png)
+
+### Results — Screenshots
+
+A gallery of the captured pages. Pages that are new since the previous run are marked **New**.
+
+![Screenshots](docs/images/dashboard/results-screenshots.png)
+
+Open a capture to see it full size, download the PNG, or **Compare with last run** side by side.
+
+![Compare with last run](docs/images/dashboard/results-compare.png)
+
+### Results — Video
+
+The walkthrough MP4 rendered with ffmpeg. It is always labelled as a screenshot slideshow, never as a live browser recording. Any limits (for example a silent video) are listed.
+
+![Video](docs/images/dashboard/results-video.png)
+
+### Results — SEO article and Changes
+
+**SEO article** writes a draft from the pages recorded in the project. A draft is labelled **AI-generated** only when a real provider answered; otherwise it is labelled **Template output — not AI-generated**. **Send to WordPress as draft** reports success only after WordPress confirms the post.
+
+**Changes** compares the latest run with the previous one: new and removed pages, and source files changed, added or removed (compared by SHA-256).
+
+![Changes](docs/images/dashboard/results-changes.png)
+
+### API
+
+One card per provider: OpenRouter, Google Gemini, Oxion AI, OpenAI, Anthropic and a custom OpenAI-compatible endpoint. Paste a key and click **Connect**. Connected cards can be tested, list models, pick a free OpenRouter model, or be removed. **Allow paid fallback** is off by default.
+
+![API](docs/images/dashboard/api.png)
+
+### Requirements
+
+Filter by status and open a row to see its acceptance criteria, code references and evidence. A requirement becomes **Verified** only from recorded test runs; it cannot be ticked by hand. Requirements with blockers are listed under **Still open before release**.
+
+![Requirements](docs/images/dashboard/requirements.png)
+
+### Settings
+
+Connect a WordPress site (site URL, username, application password) and test it, turn on automatic rescans for the current project, test storage, and add team members.
+
+![Settings](docs/images/dashboard/settings.png)
+
+### On a phone
+
+The layout adapts to small screens without sideways scrolling.
+
+<img src="docs/images/dashboard/mobile.png" alt="Dashboard on a phone" width="320">
 
 ---
 
@@ -118,12 +188,11 @@ docker compose up --build
 ### B. First-run checklist
 
 1. Open the web UI and create the administrator (email + password at least 12 characters).
-2. Create a project.
-3. **Inputs** → add a **public** website URL (private/loopback URLs are rejected unless you are in a test env).
-4. Optional: **AI** → Connect OpenRouter (`sk-or-…` from [openrouter.ai](https://openrouter.ai)) or Gemini (Google AI Studio).
-5. **Configure** → pick documentation types and the connected provider.
-6. **Run** → **Start analysis**. Wait until the job completes.
-7. **Results** → download documents. For an SEO draft, fill keyword + topic and create an article (uses a connected provider when available).
+2. **Analyze → Source**: add a **public** website URL, a Git URL or a ZIP. A project is created for you (private/loopback URLs are rejected unless you are in a test env).
+3. Optional: **API** → paste an OpenRouter (`sk-or-…` from [openrouter.ai](https://openrouter.ai)) or Gemini (Google AI Studio) key and click **Connect**.
+4. **Analyze → Configure**: pick documents, formats and the connected provider, then **Continue**.
+5. **Analyze → Run**: **Start analysis** and wait until every step is done.
+6. **Results**: read and download documents, screenshots and video. For an SEO draft, fill keyword + topic on **SEO article**.
 
 ### C. Free / low-cost AI
 
